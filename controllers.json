@@ -1,0 +1,20 @@
+{
+  "/": {
+    "controller": "index",
+    "auth": false,
+    "method": "GET",
+    "file": "public"
+  },
+  "/api/v1/login": {
+    "controller": "login",
+    "auth": true,
+    "method": "POST",
+    "file": "auth"
+  },
+  "/api/v1/signup": {
+    "controller": "signup",
+    "auth": false,
+    "method": "POST",
+    "file": "auth"
+  }
+}

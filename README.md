@@ -1,5 +1,7 @@
 # Trackboard backend
 
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
 ## Running
 You now what to do..
 

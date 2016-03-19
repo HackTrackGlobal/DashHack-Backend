@@ -1,68 +1,42 @@
-// Call the Packages
 var express = require('express')
-var bodyParser = require('body-parser')
-var mongoose = require('mongoose')
-var sio = require('socket.io')()
-var http = require('http')
-
-// Utils
-var utils = require('./utils')
-
-// Config file
-var config = require('./config')
-
-// Express instance
+var s = require('./routes')
 var app = express()
+var http = require('http')
+var server = http.createServer(app)
+var config = require('./config')
+var logger = require('morgan')
+var bodyParser = require('body-parser')
+var io = require('socket.io')(server)
 
-// Use body parser so we can grab information from POST requests
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(logger('dev'))
 app.use(bodyParser.json())
 
-// Connect to database
-mongoose.connect(config.database)
-
-/*
- * Attaching the socket.io instance
- * to the request object
- */
-app.use(function(req, res, next) {
-  req.io = sio
+app.use(function (req, res, next) {
+  req.io = io
   next()
 })
 
-/*
- * API Routes
- */
-var apiRouter = require('./routes/api')
+s.setupCtrls(app)
 
-/*
- * Using the apiRouter
- */
-app.use('/api', apiRouter)
+if (app.get('env') === 'development') {
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500)
+    res.send({
+      success: false,
+      message: err.message,
+      error: err
+    })
+  })
+}
 
-/*
- * API Status
- */
-app.get('/', function(req, res) {
-  res.json({
-    status: 'working',
-    versions: utils.getVersions()
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500)
+  res.send({
+    success: false,
+    message: err.message
   })
 })
 
-/*
- * Starting the Server
- * Weird way, hah? We do that for
- * socket.io
- */
-
-// Create the server
-var server = http.createServer(app)
-
-// Start Server
-server.listen(config.port, function() {
-  console.log("Magic happens at port " + config.port)
+server.listen(config.port, function () {
+  console.log(`Listening on port ${config.port}`)
 })
-
-// Start socket.io server
-sio.listen(server)

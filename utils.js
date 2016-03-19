@@ -3,12 +3,7 @@ var fs = require('fs')
 var path = require('path')
 
 module.exports = {
-
-  /**
-   * Function to return all the api versions
-   */
-  getVersions: function() {
-
+  getVersions: function () { // Returns all available API versions
     return fs.readdirSync('./routes').filter(function(file) {
       return fs.statSync(path.join('./routes', file)).isDirectory()
     })
