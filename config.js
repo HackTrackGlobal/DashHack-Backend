@@ -7,6 +7,6 @@ var config = {
     routes: path.join(__dirname, 'routes')
   },
   chatMax: 150,
-  secret: 'Y4rd3n1sg4y' // JWT Secret, Shhhhhh...
+  secret: 'I-TOLD-YOU-TO-NOT-UPLOAD-THE-CONFIG-FILE-GITHUB' // JWT Secret, Shhhhhh...
 }
 module.exports = config
