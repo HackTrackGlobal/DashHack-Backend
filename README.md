@@ -10,11 +10,11 @@ node server.js
 ```
 
 ## Notes
-You can access the `socketio` object from the request object:
+You can access the `socket.io` object from the request object:
 ```javascript
 app.get('/nah', function(req, res) {
   req.io // this is it
 })
 ```
 
-Also, note that `config.js` is empty. After cloning this repo, add it to `.gitignore`.
+Also, note that `config.js` is not exsiting. After cloning this repo, create it, and add it to `.gitignore`.
