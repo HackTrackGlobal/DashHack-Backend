@@ -5,16 +5,22 @@
     "method": "GET",
     "file": "public"
   },
-  "/api/v1/login": {
+  "/api/v1/auth": {
     "controller": "login",
-    "auth": true,
-    "method": "POST",
-    "file": "auth"
-  },
-  "/api/v1/signup": {
-    "controller": "signup",
     "auth": false,
     "method": "POST",
-    "file": "auth"
+    "file": "users",
+    "required": {
+      "params": ["tagCode"]
+    }
+  },
+  "/api/v1/users": {
+    "controller": "signup",
+    "auth": true,
+    "method": "POST",
+    "file": "users",
+    "required": {
+      "params": ["email", "firstName", "lastName", "proffesion", "tagNumber"]
+    }
   }
 }

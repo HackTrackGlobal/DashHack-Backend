@@ -10,7 +10,19 @@ function setupControllers (app) {
     if (data.auth) {
       app.all(p, utils.authMiddleware, function (req, res, next) {
         if (req.method.toLowerCase() === data.method.toLowerCase()) {
-          next()
+          if (data.required.params) {
+            var ks = Object.keys(req.data)
+            data.required.params.filter(function (p) {
+              if (ks.indexOf(p) === -1) {
+                var e = new Error(`Parameter ${p} is required to complete this request.`)
+                e.code = 400
+                return next(e)
+              }
+            })
+            next()
+          } else {
+            next()
+          }
         } else {
           return res.status(400).send({
             success: false,
@@ -21,7 +33,19 @@ function setupControllers (app) {
     } else {
       app.all(p, function (req, res, next) {
         if (req.method.toLowerCase() === data.method.toLowerCase()) {
-          next()
+          if (data.required.params) {
+            var ks = Object.keys(req.data)
+            data.required.params.filter(function (p) {
+              if (ks.indexOf(p) === -1) {
+                var e = new Error(`Parameter ${p} is required to complete this request.`)
+                e.code = 400
+                return next(e)
+              }
+            })
+            next()
+          } else {
+            next()
+          }
         } else {
           return res.status(400).send({
             success: false,

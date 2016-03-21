@@ -4,6 +4,45 @@ var path = require('path')
 var config = require('./config')
 var jwt = require('jsonwebtoken')
 
+var onlyWith = function (y, arr) {
+  // var ks = Object.keys(this)
+  var a = y
+  var o = {}
+  arr.forEach(function (v, i) {
+    o[v] = a[v]
+  })
+  return o
+}
+
+var hasKey = function (o, str) {
+  var ks = Object.keys(o)
+  var c = ks.filter(function (c) {
+    return c === str
+  })
+  if (c.length > 0) return true
+  return false
+}
+
+var hasVal = function (o, str) {
+  var ks = Object.keys(o)
+  var a = o
+  var c = ks.filter(function (f) {
+    return a[f] === str
+  })
+  if (c.length > 0) return true
+  return false
+}
+
+var without = function (y, arr) {
+  var a = y
+  var ks = Object.keys(a)
+  var o = {}
+  arr.forEach(function (v, i) {
+    delete y[v]
+  })
+  return y
+}
+
 module.exports = {
   getVersions: function () { // Returns all available API versions
     return fs.readdirSync('./routes').filter(function(file) {
@@ -31,4 +70,6 @@ module.exports = {
       })
     }
   },
+  onlyWith: onlyWith,
+  without: without,
 }
